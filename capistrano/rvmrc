@@ -1,0 +1,4 @@
+# this file should be named .rvmrc and placed in the project root
+
+rvm --create use "ruby-1.9.3-p194@fitness_app_gemset"
+rvm_trust_rvmrcs_flag=1

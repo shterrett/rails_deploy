@@ -1,0 +1,96 @@
+upstream app_server {
+  # fail_timeout=0 means we always retry an upstream even if it failed
+  # to return a good HTTP response (in case the Unicorn master nukes a
+  # single worker for timing out).
+
+  # for UNIX domain socket setups:
+  server unix:/tmp/unicorn.<%= application %>.sock;
+}
+
+server {
+  listen 80;
+
+  <% if rails_env.eql? 'production' %>
+  server_name url_used_to_access_application;
+  <% end %>
+  <% if rails_env.eql? 'staging' %>
+  server_name url_used_to_access_application;
+  <% end %>
+
+  # path for static files
+  root /home/webuser/www/<%= rails_env %>.application_name/current/public;   # <--- be sure to point to 'public'!
+
+  location / {
+    # an HTTP header important enough to have its own Wikipedia entry:
+    # http://en.wikipedia.org/wiki/X-Forwarded-For
+    proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+
+    # enable this if and only if you use HTTPS, this helps Rack
+    # set the proper protocol for doing redirects:
+    # proxy_set_header X-Forwarded-Proto https;
+
+    # pass the Host: header from the client right along so redirects
+    # can be set properly within the Rack application
+    proxy_set_header Host $http_host;
+
+    # we don't want nginx trying to do something clever with
+    # redirects, we set the Host: header above already.
+    proxy_redirect off;
+
+    proxy_pass http://app_server;
+  }
+
+  location ~* \.(ico|css|js|gif|jp?g|png)(\?[0-9]+)?$ {
+    expires max;
+    break;
+  }
+}
+
+#server {
+#  listen 443;
+#
+#  <% if rails_env.eql? 'production' %>
+#  server_name url_used_to_access_application;
+#  <% elsif rails_env.eql? 'staging' %>
+#  server_name url_used_to_access_application;
+#  <% end %>
+#
+#  ssl                  on;
+#  <% if rails_env.eql? 'production' %>
+#  ssl_certificate      /etc/nginx/certs/fitnesapp.chain.cert;
+#  <% elsif rails_env.eql? 'staging' %>
+#  ssl_certificate      /etc/nginx/certs/staging.fitnessapp.chain.cert;
+#  <% end %>
+#  ssl_certificate_key  /etc/nginx/certs/privkey.pem;
+#
+#  ssl_protocols  SSLv2 SSLv3 TLSv1;
+#  ssl_ciphers  HIGH:!aNULL:!MD5;
+#  ssl_prefer_server_ciphers   on;
+#
+#  root /home/webuser/www/<%= rails_env %>.application_name/current/public;   # <--- be #sure to point to 'public'!
+#
+#  location / {
+#    # an HTTP header important enough to have its own Wikipedia entry:
+#    # http://en.wikipedia.org/wiki/X-Forwarded-For
+#    proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+#
+#    # enable this if and only if you use HTTPS, this helps Rack
+#    # set the proper protocol for doing redirects:
+#    proxy_set_header X-Forwarded-Proto https;
+#
+#    # pass the Host: header from the client right along so redirects
+#    # can be set properly within the Rack application
+#    proxy_set_header Host $http_host;
+#
+#    # we don't want nginx trying to do something clever with
+#    # redirects, we set the Host: header above already.
+#    proxy_redirect off;
+#
+#    proxy_pass http://app_server;
+#  }
+#
+#  location ~* \.(ico|css|js|gif|jp?g|png)(\?[0-9]+)?$ {
+#    expires max;
+#    break;
+#  }
+#}
