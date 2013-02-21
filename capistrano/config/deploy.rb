@@ -21,6 +21,8 @@ set :user, "webuser"  # The server's user for deploys
 #set :scm,           :git
 #set :repository,    "application_github_repository"
 #set :deploy_via,    :remote_cache
+#set :user, "mpscmdeploy"
+## rsa keypair already generated for production and staging servers
 
 ########
 ## use this if you want to deploy HEAD from local machine
