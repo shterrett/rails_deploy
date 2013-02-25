@@ -1,8 +1,8 @@
 set :user,        "webuser"
 
 # target
-server            "web_server_name_or_ip", :app, :web, :primary => true
-server            "db_server_name_or_ip", :db, primary: true
+server            "web_server_name_or_ip", :app, :web, :db, primary: true
+server            "db_server_name_or_ip", :db, no_release: true
 set :rails_env,   "production"
 set :branch,      "capistrano"
 

@@ -6,6 +6,7 @@ namespace :firewall do
     run "#{sudo} ufw allow 22/tcp"
     run "#{sudo} ufw allow 80/tcp"
     run "#{sudo} ufw allow 443/tcp"
+    run "#{sudo} ufw allow 3306"
     run "#{sudo} ufw --force enable"
   end
 

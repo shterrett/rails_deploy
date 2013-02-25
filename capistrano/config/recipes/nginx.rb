@@ -1,7 +1,7 @@
 set_default(:nginx_workers) { (rails_env.eql? 'production') ? "4" : "1" }
 
 namespace :nginx do
-  task :setup do
+  task :setup, roles: :web do
     # main nginx conf
     template "nginx.erb", "/tmp/nginx_conf"
     run "#{sudo} mv /tmp/nginx_conf /etc/nginx/nginx.conf"
@@ -18,7 +18,7 @@ namespace :nginx do
 
   %w[start stop restart].each do |command|
     desc "#{command} nginx"
-    task command do
+    task command, roles: :web do
       run "#{sudo} service nginx #{command}"
     end
   end

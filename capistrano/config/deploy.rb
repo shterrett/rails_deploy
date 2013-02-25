@@ -70,7 +70,7 @@ before "deploy:assets:precompile", "deploy:link_db"
 
 namespace :deploy do
   desc "Update shared symbolic links"
-  task :update_shared_symlinks do
+  task :update_shared_symlinks, roles: :app do
     run "mkdir -p #{deploy_to}/shared/config"
     run "mkdir -p #{deploy_to}/shared/config/unicorn"
     shared_files = ["config/unicorn/#{rails_env}.rb"]
@@ -83,7 +83,7 @@ namespace :deploy do
     concatenated_commands = commands_array.join
     run concatenated_commands
   end
-  task :link_db do
+  task :link_db roles: :app do
     run "ln -s #{shared_path}/config/database.yml #{latest_release}/config/database.yml"
   end
 end
