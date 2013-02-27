@@ -1,0 +1,12 @@
+group :development do
+  gem 'capistrano'
+  gem 'capistrano_colors'
+  gem 'capistrano-unicorn', require: false
+  gem 'rvm-capistrano'
+end
+
+group :staging, :production do
+  gem 'unicorn'
+end
+
+gem 'therubyracer'
