@@ -18,10 +18,11 @@ set :user, "webuser"  # The server's user for deploys
 ########
 ## use this if you want to deploy from remote git repo
 ########
-#set :scm,           :git
-#set :repository,    "application_github_repository"
-#set :deploy_via,    :remote_cache
-#set :user, "mpscmdeploy"
+set :scm,           :git
+set :repository,    "git@github.com:MPSCM/<github_repository>"
+set :deploy_via,    :remote_cache
+set :user,          :mpscmdeploy
+
 ## rsa keypair already generated for production and staging servers
 
 ########
@@ -34,9 +35,9 @@ set :user, "webuser"  # The server's user for deploys
 ########
 ## use this if you want to deploy the actual contents of local directory
 ########
-set :scm,               :none
-set :repository,        "."
-set :deploy_via,        :copy
+# set :scm,               :none
+# set :repository,        "."
+# set :deploy_via,        :copy
 
 
 set :copy_exclude,      [".git/*", "log/*", "coverage/*", ".DS_Store", "*.sql", "._*"]

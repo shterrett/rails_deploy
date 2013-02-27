@@ -16,7 +16,7 @@ Changes:
 		- templates
 			- database.yml.erb: This file will be copied to the server and symlinked into the "current". The database password should be input in the file on the server, and NOT in this template file. 
 				database_name
-				database_server_name_or_ip
+				database_server_name_or_ip --> change after deploy; different for staging and production
 			- nginx_unicorn.erb
 				url_used_to_access_application
 				application_name
