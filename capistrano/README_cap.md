@@ -39,11 +39,15 @@ Deployment
     %sudo   ALL=NOPASSWD: ALL
 
 2. Create database on target server and give appropriate permissions (see goodtoknow for sql commands).
+  mysql> create database <database_name>;
+  mysql> grant usage on *.* to <db_user>@<webserver_ip> identified by ‘db_user_password’;
+  mysql> grant all privileges on <database_name>.* to <db_user>@<webserver_ip>;
+  
 
 3. Put the two SSL cert files in place.  Find the files on Dropbox.
 
     $ sudo mkdir /etc/nginx/certs
-    $ sudo nano /etc/nginx/certs/api.<stage>.ravidapp.com.chain.cert
+    $ sudo nano /etc/nginx/certs/api.<stage>.<application_name>.chain.cert
     $ sudo nano /etc/nginx/certs/privkey.pem
 
     $ sudo chmod 755 /etc/nginx/certs
