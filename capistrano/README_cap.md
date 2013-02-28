@@ -61,8 +61,6 @@ Deployment
 
     $ nano /home/ravidapp/www/<stage>.ravidapp.com/shared/config/database.yml
 
-5.5 cap [stage] unicorn:setup
-
 6. ... and deploy(cold)
 
     $ cap [stage] deploy:cold
@@ -79,6 +77,7 @@ Deployment
 9.
     $ cap <stage> unicorn:setup
     $ cap <stage> nginx:setup
+    $ cap <stage> unicorn:start (may be necssary)
 
 10. optional - install & configure server monitoring (copperegg, monit, etc)
 
