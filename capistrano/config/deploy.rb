@@ -84,7 +84,7 @@ namespace :deploy do
     concatenated_commands = commands_array.join
     run concatenated_commands
   end
-  task :link_db roles: :app do
+  task :link_db, roles: :app do
     run "ln -s #{shared_path}/config/database.yml #{latest_release}/config/database.yml"
   end
 end
